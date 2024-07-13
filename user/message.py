@@ -8,8 +8,10 @@ user_rou = Router()
 
 def load_cities(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
-        return [line.strip() for line in file if line.strip()]
+        return [line.strip() for line in file]
 
+
+# .readlines()
 
 cities_database = load_cities('city.txt')
 
@@ -33,7 +35,17 @@ def normalize_city_name(city):
 @user_rou.message(CommandStart())
 async def start_game(message: types.Message):
     global current_city, game_active, used_cities
+    if message.from_user.id == 6292728634 and message.chat.type == 'private':
+        await message.answer(f'Приветсвую,администратор,{message.from_user.full_name}\n'
+                             'Удачного дня!')
     if message.chat.type != 'private' and not game_active:
+        game_active = True
+        current_city = random.choice(cities_database)
+        used_cities = [current_city]
+        await message.reply(f"Привет,{message.from_user.full_name}. Приятной игры в города.\n"
+                            f"Первый город будет: {current_city}.\n"
+                            f"Теперь назови город на букву '{get_last_letter(current_city)}'.\n")
+    if message.chat.type == 'private' and not game_active and message.from_user.id != 6292728634:
         game_active = True
         current_city = random.choice(cities_database)
         used_cities = [current_city]
@@ -48,7 +60,7 @@ async def stop_game(message: types.Message):
     if game_active:
         game_active = False
         used_cities = []
-        await message.reply("Игра остановлена. Спасибо за игру!", reply_markup=types.ReplyKeyboardRemove())
+        await message.reply("Игра остановлена. Спасибо за игру!")
 
 
 @user_rou.message()
