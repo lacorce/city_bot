@@ -37,9 +37,9 @@ async def start_game(message: types.Message):
         game_active = True
         current_city = random.choice(cities_database)
         used_cities = [current_city]
-        await message.reply(f"Привет,{message.from_user.first_name}, с которым можно поиграть в города. "
-                            f"Первый город будет: {current_city}. "
-                            f"Теперь назови город на букву '{get_last_letter(current_city)}'.")
+        await message.reply(f"Привет,{message.from_user.full_name}. Приятной игры в города.\n"
+                            f"Первый город будет: {current_city}.\n"
+                            f"Теперь назови город на букву '{get_last_letter(current_city)}'.\n")
 
 
 @user_rou.message(Command('stop'))
