@@ -1,6 +1,7 @@
 from aiogram import Router
 from aiogram import types
 from aiogram.filters import Command, CommandStart
+from admin.keyboard import keyboard as kb
 import random
 
 user_rou = Router()
@@ -37,7 +38,7 @@ async def start_game(message: types.Message):
     global current_city, game_active, used_cities
     if message.from_user.id == 6292728634 and message.chat.type == 'private':
         await message.answer(f'Приветсвую,администратор,{message.from_user.full_name}\n'
-                             'Удачного дня!')
+                             'Удачного дня!', reply_markup=kb.admin_key)
     if message.chat.type != 'private' and not game_active:
         game_active = True
         current_city = random.choice(cities_database)
@@ -45,13 +46,7 @@ async def start_game(message: types.Message):
         await message.reply(f"Привет,{message.from_user.full_name}. Приятной игры в города.\n"
                             f"Первый город будет: {current_city}.\n"
                             f"Теперь назови город на букву '{get_last_letter(current_city)}'.\n")
-    if message.chat.type == 'private' and not game_active and message.from_user.id != 6292728634:
-        game_active = True
-        current_city = random.choice(cities_database)
-        used_cities = [current_city]
-        await message.reply(f"Привет,{message.from_user.full_name}. Приятной игры в города.\n"
-                            f"Первый город будет: {current_city}.\n"
-                            f"Теперь назови город на букву '{get_last_letter(current_city)}'.\n")
+
 
 
 @user_rou.message(Command('stop'))
