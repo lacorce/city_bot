@@ -1,7 +1,7 @@
 from aiogram import Router
 from aiogram import types
 from aiogram.filters import Command, CommandStart
-from admin.keyboard import keyboard as kb
+from admin.keyboard.keyboard import admin_key
 import random
 
 user_rou = Router()
@@ -12,7 +12,7 @@ def load_cities(file_path):
         return [line.strip() for line in file]
 
 
-# .readlines()
+
 
 cities_database = load_cities('city.txt')
 
@@ -38,7 +38,7 @@ async def start_game(message: types.Message):
     global current_city, game_active, used_cities
     if message.from_user.id == 6292728634 and message.chat.type == 'private':
         await message.answer(f'Приветсвую,администратор,{message.from_user.full_name}\n'
-                             'Удачного дня!', reply_markup=kb.admin_key)
+                             'Удачного дня!', reply_markup=admin_key)
     if message.chat.type != 'private' and not game_active:
         game_active = True
         current_city = random.choice(cities_database)
@@ -52,7 +52,7 @@ async def start_game(message: types.Message):
 @user_rou.message(Command('stop'))
 async def stop_game(message: types.Message):
     global game_active, used_cities
-    if game_active:
+    if message.chat.type != 'private' and game_active:
         game_active = False
         used_cities = []
         await message.reply("Игра остановлена. Спасибо за игру!")
