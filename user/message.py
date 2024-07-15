@@ -90,7 +90,7 @@ async def handle_city(message: types.Message):
             await message.reply(f"Город должен начинаться с буквы '{get_last_letter(current_city)}'. Попробуй еще раз.")
             return
 
-        user_id = message.from_user.id
+        user_id = message.from_user.first_name
         if user_id in user_balls:
             user_balls[user_id] += 1
         else:
@@ -98,6 +98,6 @@ async def handle_city(message: types.Message):
 
         # Print user_id and current balls
         print(f"{user_id} balls: {user_balls[user_id]}")
-
+        print(user_balls)
         await message.reply(f"Верно! Введенный город '{current_city}' существует. Давай дальше! "
                             f"Теперь назови город на букву '{get_last_letter(current_city)}'.")
