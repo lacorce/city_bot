@@ -13,7 +13,7 @@ async def setup_bot_commands():
         BotCommand(command="/add_city", description="Подать заявление на добавление города")
     ]
     await bot.set_my_commands(bot_commands)
-bot = Bot(token="7239116420:AAFVMkpjlPt61eIi-8izbzG3JSZoUagYL7Q")
+bot = Bot(token="")
 dp = Dispatcher()
 
 async def start():
